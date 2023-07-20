@@ -74,9 +74,10 @@ function draw() {
   ctx.fillRect(0, 0, GAMEWIDTH, GAMEHEIGHT);
   ctx.fillStyle = backgroundColor;
   ctx.fillRect(0, GAMEHEIGHT, GAMEWIDTH, GAMEHEIGHT + 100);
-  ctx.font = "32px oswald";
+  ctx.font = "20px oswald";
   ctx.fillStyle = "black"
-  ctx.fillText("Reload to play again!", 215, GAMEHEIGHT + 60)
+  ctx.fillText("Click on the columns to insert a marker. Four in a row diagonally, horizontally, ", 35, GAMEHEIGHT + 40)
+  ctx.fillText("or vertically wins. The bot will play fast, so be ready! Reload to play again :)", 45, GAMEHEIGHT + 80)
   for (let y = 0; y < game.rows; y++) {
     for (let x = 0; x < game.cols; x++) {
       if (game.board[y][x] === null) {
@@ -93,7 +94,7 @@ function draw() {
     ctx.fillRect(game.rectSize.x * 1.5, game.rectSize.x * 1.2, game.rectSize.x * 4, game.rectSize.x * 3.6)
     ctx.font = "48px oswald";
     ctx.fillStyle = "black";
-    ctx.fillText(game.gameoverText, game.rectSize.x*2, game.rectSize.x*2.5);
+    ctx.fillText(game.gameoverText, game.rectSize.x*(2.1), game.rectSize.x*3);
   }
 }
 draw()

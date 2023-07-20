@@ -5,7 +5,7 @@ const ctx = canvas.getContext("2d");
 const GAMEWIDTH = 700
 const GAMEHEIGHT = 600
 ctx.canvas.width = GAMEWIDTH;
-ctx.canvas.height = GAMEHEIGHT;
+ctx.canvas.height = GAMEHEIGHT + 100;
 
 const gameBackgroudColor = "rgb(28,98,241)"
 const backgroundColor = "rgb(225, 225, 225)"
@@ -13,10 +13,10 @@ const gameoverColor = "rgb(66,241,84)"
 const p1Color = "rgb(246, 26, 26)"
 const p2Color = "rgb(246, 231, 26)"
 const emptyColor = "rgb(215, 215, 215)"
-const topLeft = { x: (window.innerWidth - GAMEWIDTH) / 2, y: (window.innerHeight - GAMEHEIGHT) / 2 }
-const bottomRight = { x: (window.innerWidth + GAMEWIDTH) / 2, y: (window.innerHeight + GAMEHEIGHT) / 2 }
+const topLeft = { x: (window.innerWidth - GAMEWIDTH) / 2, y: (window.innerHeight - GAMEHEIGHT - 100) / 2 }
+const bottomRight = { x: (window.innerWidth + GAMEWIDTH) / 2, y: (window.innerHeight + GAMEHEIGHT - 100) / 2 }
 
-let game = new Connect4(7, 6, GAMEWIDTH, GAMEHEIGHT, p1Color, p2Color, false, 7)
+let game = new Connect4(7, 6, GAMEWIDTH, GAMEHEIGHT, p1Color, p2Color, false, 9)
 
 document.addEventListener("click", function (event) {
   if (event.button === 0 && isWithin(event.pageX, event.pageY, topLeft.x, topLeft.y, bottomRight.x, bottomRight.y)) {
@@ -73,7 +73,10 @@ function draw() {
   ctx.fillStyle = gameBackgroudColor;
   ctx.fillRect(0, 0, GAMEWIDTH, GAMEHEIGHT);
   ctx.fillStyle = backgroundColor;
-  ctx.fillRect(GAMEWIDTH, 0, GAMEWIDTH + 200, GAMEHEIGHT);
+  ctx.fillRect(0, GAMEHEIGHT, GAMEWIDTH, GAMEHEIGHT + 100);
+  ctx.font = "32px oswald";
+  ctx.fillStyle = "black"
+  ctx.fillText("Reload to play again!", 215, GAMEHEIGHT + 60)
   for (let y = 0; y < game.rows; y++) {
     for (let x = 0; x < game.cols; x++) {
       if (game.board[y][x] === null) {

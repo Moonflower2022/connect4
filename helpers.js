@@ -50,7 +50,7 @@ function minimax(originalDepth, depth, game, isMaximizingPlayer, alpha = Number.
         let value;
         let gameoverInfo = game.over(move)
         if (gameoverInfo[0]) {
-            value = gameoverInfo[1] ? Number.POSITIVE_INFINITY : gameoverInfo[1] === false ? Number.NEGATIVE_INFINITY : 0
+            value = gameoverInfo[1] ? 1000*depth : gameoverInfo[1] === false ? -1000*depth : 0
         } else {
             value = minimax(originalDepth, depth - 1, game, !isMaximizingPlayer, alpha, beta)[0];
         }

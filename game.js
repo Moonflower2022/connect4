@@ -10,6 +10,7 @@ ctx.canvas.height = GAMEHEIGHT + 100;
 const gameBackgroudColor = "rgb(28,98,241)"
 const backgroundColor = "rgb(225, 225, 225)"
 const gameoverColor = "rgb(66,241,84)"
+const lightP1Color = "rgb(255, 140, 140)"
 const p1Color = "rgb(246, 26, 26)"
 const p2Color = "rgb(246, 231, 26)"
 const emptyColor = "rgb(215, 215, 215)"
@@ -18,13 +19,14 @@ const bottomRight = { x: (window.innerWidth + GAMEWIDTH) / 2, y: (window.innerHe
 
 let game = new Connect4(7, 6, GAMEWIDTH, GAMEHEIGHT, p1Color, p2Color, false, 9)
 
+let drawCol;
+
 document.addEventListener("click", function (event) {
   if (event.button === 0 && isWithin(event.pageX, event.pageY, topLeft.x, topLeft.y, bottomRight.x, bottomRight.y)) {
     if (game.turn && game.moveIsValid(game.clickColumn(event.pageX - topLeft.x)) && !game.isOver) {
       let x = game.clickColumn(event.pageX - topLeft.x)
       game.move(x)
       if (game.over(x)[0]){
-        console.log(game.over(x))
         game.isOver = true
         game.gameoverText = (game.over(x)[1] && !game.botPlayer) || 
       (game.over(x)[1] === false && game.botPlayer) ? "You Win!" : 
@@ -34,7 +36,6 @@ document.addEventListener("click", function (event) {
       } else {
         let x = game.botMove()
         if (game.over(x)[0]){
-          console.log(game.over(x))
           game.isOver = true
           game.gameoverText = (game.over(x)[1] && !game.botPlayer) || 
       (game.over(x)[1] === false && game.botPlayer) ? "You Win!" : 
@@ -50,8 +51,9 @@ document.addEventListener("click", function (event) {
   }
 });
 
-function resetGame(){
-
+document.onmousemove = function (event){
+  var pos = getMousePos(canvas, event);
+  drawCol = game.clickColumn(pos.x)
 }
 
 function drawCircle(x, y, radius, fill, stroke, strokeWidth) {
@@ -81,7 +83,11 @@ function draw() {
   for (let y = 0; y < game.rows; y++) {
     for (let x = 0; x < game.cols; x++) {
       if (game.board[y][x] === null) {
-        drawCircle((x + 1 / 2) * game.rectSize.x, (y + 1 / 2) * game.rectSize.y, 40, emptyColor)
+        if (x === drawCol && y === game.lowestAvailableSpace(drawCol) && !game.isOver){
+          drawCircle((x + 1 / 2) * game.rectSize.x, (y + 1 / 2) * game.rectSize.y, 40, lightP1Color)
+        } else {
+          drawCircle((x + 1 / 2) * game.rectSize.x, (y + 1 / 2) * game.rectSize.y, 40, emptyColor)
+        }
       } else if (game.board[y][x] === true) {
         drawCircle((x + 1 / 2) * game.rectSize.x, (y + 1 / 2) * game.rectSize.y, 40, p1Color)
       } else if (game.board[y][x] === false) {

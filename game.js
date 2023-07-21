@@ -100,7 +100,9 @@ function draw() {
     ctx.fillRect(game.rectSize.x * 1.5, game.rectSize.x * 1.2, game.rectSize.x * 4, game.rectSize.x * 3.6)
     ctx.font = "48px oswald";
     ctx.fillStyle = "black";
-    ctx.fillText(game.gameoverText, game.rectSize.x*(2.1), game.rectSize.x*3);
+    ctx.fillText(game.gameoverText, game.rectSize.x*(2.2), game.rectSize.x*3);
+    ctx.font = "32px oswald";
+    ctx.fillText("Click to hide", game.rectSize.x*(2.5), game.rectSize.x*4);
   }
 }
 draw()

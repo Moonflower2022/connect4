@@ -1,5 +1,5 @@
 class Connect4 {
-	constructor(cols, rows, width, height, colorP1, colorP2, botPlayer, botDepth) {
+	constructor(cols, rows, width, height, botPlayer, botDepth) {
 		this.cols = cols
 		this.rows = rows
 		this.width = width
@@ -8,12 +8,10 @@ class Connect4 {
 			x: this.width / this.cols,
 			y: this.height / this.rows
 		}
-		this.colorP1 = colorP1
-		this.colorP2 = colorP2
 		this.turn = true
 		this.isOver = false
 		this.gameoverText = null
-		this.showGameover = false
+		this.showGameover = true
 		// bool, true is p1, false is p2
 		this.botPlayer = botPlayer
 		this.botDepth = botDepth
@@ -67,70 +65,6 @@ class Connect4 {
 		return ret
 	}
 	over(lastMoveX) {
-		// let center = {
-		// 	x: this.lowestAvailableSpace(lastMoveX) + 1,
-		// 	y: lastMoveX
-		// }
-		// for (let i = 0; i < 4; i++) {
-		// 	if (
-		// 		board[center.y - i][center.x] &&
-		// 		board[center.y - i + 1][center.x] &&
-		// 		board[center.y - i + 2][center.x] &&
-		// 		board[center.y - i + 3][center.x]
-		// 	) {
-		// 		if (
-		// 			board[center.y - i][center.x] === board[center.y - i + 1][center.x] &&
-		// 			board[center.y - i + 1][center.x] === board[center.y - i + 2][center.x] &&
-		// 			board[center.y - i + 2][center.x] === board[center.y - i + 3][center.x]) {
-		// 			return [true, this.board[center.y][center.x]]
-		// 		}
-		// 	}
-		// }
-		// for (let i = 0; i < 4; i++) {
-		// 	if (
-		// 		board[center.y + i][center.x - i] &&
-		// 		board[center.y + i - 1][center.x - i + 1] &&
-		// 		board[center.y + i - 2][center.x - i + 2] &&
-		// 		board[center.y + i - 3][center.x - i + 3]
-		// 	) {
-		// 		if (
-		// 			board[center.y + i][center.x - i] === board[center.y + i - 1][center.x - i + 1] &&
-		// 			board[center.y + i - 1][center.x - i + 1] === board[center.y + i - 2][center.x - i + 2] &&
-		// 			board[center.y + i - 2][center.x - i + 2] === board[center.y + i - 3][center.x - i + 3]) {
-		// 			return [true, this.board[center.y][center.x]]
-		// 		}
-		// 	}
-		// }
-		// for (let i = 0; i < 4; i++) {
-		// 	if (
-		// 		board[center.y][center.x - i] &&
-		// 		board[center.y][center.x - i + 1] &&
-		// 		board[center.y][center.x - i + 2] &&
-		// 		board[center.y][center.x - i + 3]
-		// 	) {
-		// 		if (
-		// 			board[center.y][center.x - i] === board[center.y][center.x - i + 1] &&
-		// 			board[center.y][center.x - i + 1] === board[center.y][center.x - i + 2] &&
-		// 			board[center.y][center.x - i + 2] === board[center.y][center.x - i + 3]) {
-		// 			return [true, this.board[center.y][center.x]]
-		// 		}
-		// 	}
-		// }
-		// for (let i = 0; i < 4; i++) {
-		// 	if (
-		// 		board[center.y - i][center.x - i] &&
-		// 		board[center.y - i + 1][center.x - i + 1] &&
-		// 		board[center.y - i + 2][center.x - i + 2] &&
-		// 		board[center.y - i + 3][center.x - i + 3]
-		// 	) {
-		// 		if (
-		// 			board[center.y - i][center.x - i] === board[center.y - i + 1][center.x - i + 1] &&
-		// 			board[center.y - i + 1][center.x - i + 1] === board[center.y - i + 2][center.x - i + 2] &&
-		// 			board[center.y - i + 2][center.x - i + 2] === board[center.y - i + 3][center.x - i + 3]) {
-		// 			return [true, this.board[center.y][center.x]]
-		// 		}
-		// 	}
-		// }
 		let center = {
 			x: lastMoveX,
 			y: this.lowestAvailableSpace(lastMoveX) + 1
@@ -144,7 +78,12 @@ class Connect4 {
 					this.board[center.y - i + 2][center.x],
 					this.board[center.y - i + 3][center.x])
 			) {
-				return [true, this.board[center.y][center.x]]
+				return [true, this.board[center.y][center.x], [
+					[center.x, center.y - i], 
+					[center.x, center.y - i + 1], 
+					[center.x, center.y - i + 2], 
+					[center.x, center.y - i + 3]
+				]]
 			}
 		}
 		for (let i = 0; i < 4; i++) {
@@ -156,7 +95,12 @@ class Connect4 {
 					this.board[center.y + i - 2][center.x - i + 2],
 					this.board[center.y + i - 3][center.x - i + 3])
 			) {
-				return [true, this.board[center.y][center.x]]
+				return [true, this.board[center.y][center.x], [
+					[center.x - i, center.y + i], 
+					[center.x - i + 1, center.y + i - 1], 
+					[center.x - i + 2, center.y + i - 2], 
+					[center.x - i + 3, center.y + i - 3]
+				]]
 			}
 		}
 		for (let i = 0; i < 4; i++) {
@@ -170,7 +114,12 @@ class Connect4 {
 					this.board[center.y][center.x - i + 3]
 				)
 			) {
-				return [true, this.board[center.y][center.x]]
+				return [true, this.board[center.y][center.x], [
+					[center.x - i, center.y], 
+					[center.x - i + 1, center.y], 
+					[center.x - i + 2, center.y], 
+					[center.x - i + 3, center.y]
+				]]
 			}
 		}
 		for (let i = 0; i < 4; i++) {
@@ -183,7 +132,12 @@ class Connect4 {
 					this.board[center.y - i + 2][center.x - i + 2],
 					this.board[center.y - i + 3][center.x - i + 3])
 			) {
-				return [true, this.board[center.y][center.x]]
+				return [true, this.board[center.y][center.x], [
+					[center.x - i, center.y - i], 
+					[center.x - i + 1, center.y - i + 1], 
+					[center.x - i + 2, center.y - i + 2], 
+					[center.x - i + 3, center.y - i + 3]
+				]]
 			}
 		}
 		for (let row of this.board) {
@@ -191,9 +145,9 @@ class Connect4 {
 				return [false, null]
 			}
 		}
-		return [true, null]
+		return [true, null, null]
 	}
-	clickColumn(mouseX) {
+	getColumn(mouseX) {
 		return Math.floor(mouseX / this.rectSize.x)
 	}
 }

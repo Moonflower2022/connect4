@@ -19,7 +19,9 @@ const topLeft = { x: (window.innerWidth - GAMEWIDTH) / 2, y: (window.innerHeight
 const bottomRight = { x: (window.innerWidth + GAMEWIDTH) / 2, y: (window.innerHeight + GAMEHEIGHT - 100) / 2 }
 const searchDepth = 10
 
-let game = new Connect4(7, 6, GAMEWIDTH, GAMEHEIGHT, false, searchDepth)
+let startAs = localStorage.getItem("start") ? localStorage.getItem("start") : "red"
+console.log(startAs)
+let game = startAs === "red" ? new Connect4(7, 6, GAMEWIDTH, GAMEHEIGHT, false, searchDepth) : new Connect4(7, 6, GAMEWIDTH, GAMEHEIGHT, true, searchDepth)
 
 let lastMove;
 let drawCol;
@@ -31,7 +33,7 @@ document.addEventListener("click", function (event) {
     if (game.isOver) {
       game.showGameover = !game.showGameover
     }
-    if (game.turn && game.moveIsValid(game.getColumn(event.pageX - topLeft.x)) && !game.isOver) {
+    if ((game.turn != game.botPlayer) && game.moveIsValid(game.getColumn(event.pageX - topLeft.x)) && !game.isOver) {
       var playerX = game.getColumn(event.pageX - topLeft.x)
       game.move(playerX)
       lastMove = playerX
@@ -53,6 +55,17 @@ document.onmousemove = function (event) {
   drawCol = game.getColumn(getMousePos(canvas, event).x)
 }
 
+document.querySelector(".redbutton").addEventListener("click", function (){
+  localStorage.setItem("start", "red")
+})
+document.querySelector(".yellowbutton").addEventListener("click", function (){
+  localStorage.setItem("start", "yellow")
+})
+
+if (game.botPlayer === true){
+  moveBuffer = 1
+}
+
 function drawCircle(x, y, radius, fill, stroke, strokeWidth) {
   ctx.beginPath()
   ctx.arc(x, y, radius, 0, 2 * Math.PI, false)
@@ -66,7 +79,6 @@ function drawCircle(x, y, radius, fill, stroke, strokeWidth) {
     ctx.stroke()
   }
 }
-
 function draw() {
   requestAnimationFrame(draw)
   ctx.fillStyle = gameBackgroudColor;
@@ -85,14 +97,14 @@ function draw() {
         } else {
           drawCircle((x + 1 / 2) * game.rectSize.x, (y + 1 / 2) * game.rectSize.y, 40, emptyColor)
         }
-      } else if (game.board[y][x] === true) {
+      } else if (game.board[y][x] === !game.botPlayer) {
         if (x === lastMove && y === game.lowestAvailableSpace(lastMove) + 1) {
           drawCircle((x + 1 / 2) * game.rectSize.x, (y + 1 / 2) * game.rectSize.y, 40, highlightColor)
           drawCircle((x + 1 / 2) * game.rectSize.x, (y + 1 / 2) * game.rectSize.y, 35, p1Color)
         } else {
           drawCircle((x + 1 / 2) * game.rectSize.x, (y + 1 / 2) * game.rectSize.y, 40, p1Color)
         }
-      } else if (game.board[y][x] === false) {
+      } else if (game.board[y][x] === game.botPlayer) {
         if (x === lastMove && y === game.lowestAvailableSpace(lastMove) + 1) {
           drawCircle((x + 1 / 2) * game.rectSize.x, (y + 1 / 2) * game.rectSize.y, 40, highlightColor)
           drawCircle((x + 1 / 2) * game.rectSize.x, (y + 1 / 2) * game.rectSize.y, 35, p2Color)
@@ -126,7 +138,7 @@ function draw() {
     ctx.font = "32px oswald";
     ctx.fillText("Click to hide", game.rectSize.x * (2.5), game.rectSize.x * 4);
   }
-  if (game.turn === false && moveBuffer === 0) {
+  if (game.turn === game.botPlayer && moveBuffer === 0) {
     var botX = game.botMove()
     lastMove = botX
     if (game.over(botX)[0]) {

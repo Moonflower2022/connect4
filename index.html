@@ -15,12 +15,64 @@
         left: 50%;
         transform: translate(-50%, -50%);
       }
-  </style>
+      body {
+        background-image: url("background.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+      }
+      .cool-button {
+        align-items: center;
+        background-color: rgb(72, 246, 206);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: .25rem;
+        box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+        box-sizing: border-box;
+        color: rgba(0, 0, 0, 0.85);
+        cursor: pointer;
+        display: inline-flex;
+        font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        justify-content: center;
+        line-height: 1.25;
+        margin: 0;
+        min-height: 3rem;
+        padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+        position: relative;
+        text-decoration: none;
+        transition: all 250ms;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        width: auto;
+      }
+
+      .cool-button:hover,
+      .cool-button:focus {
+        border-color: rgba(0, 0, 0, 0.15);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+        color: rgba(0, 0, 0, 0.65);
+      }
+
+      .cool-button:hover {
+        transform: translateY(-1px);
+      }
+
+      .cool-button:active {
+        background-color: #F0F0F1;
+        border-color: rgba(0, 0, 0, 0.15);
+        box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+        color: rgba(72, 246, 206, 0.65);
+        transform: translateY(0);
+      }
+    </style>
   </head>
 
   <body>
     <canvas id="canvas"></canvas>
-    <button class="redbutton" style="position:absolute; left: 1150px; top: 300px;">Start games as Red</button>
-    <button class="yellowbutton" style="position:absolute; left: 1150px; top: 350px;">Start games as Yellow</button>
+    <button class="cool-button" id="redbutton" style="position:absolute; left: 1150px; top: 270px;">Start games as first player</button>
+    <button class="cool-button" id="yellowbutton" style="position:absolute; left: 1150px; top: 360px;">Start games as second player</button>
   </body>
 </html>

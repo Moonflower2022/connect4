@@ -55,10 +55,10 @@ document.onmousemove = function (event) {
   drawCol = game.getColumn(getMousePos(canvas, event).x)
 }
 
-document.querySelector(".redbutton").addEventListener("click", function (){
+document.getElementById("redbutton").addEventListener("click", function (){
   localStorage.setItem("start", "red")
 })
-document.querySelector(".yellowbutton").addEventListener("click", function (){
+document.getElementById("yellowbutton").addEventListener("click", function (){
   localStorage.setItem("start", "yellow")
 })
 

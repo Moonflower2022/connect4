@@ -20,24 +20,22 @@ const bottomRight = { x: (window.innerWidth + GAMEWIDTH) / 2, y: (window.innerHe
 const searchDepth = 10
 
 let startAs = localStorage.getItem("start") ? localStorage.getItem("start") : "red"
-console.log(startAs)
 let game = startAs === "red" ? new Connect4(7, 6, GAMEWIDTH, GAMEHEIGHT, false, searchDepth) : new Connect4(7, 6, GAMEWIDTH, GAMEHEIGHT, true, searchDepth)
 
 let lastMove;
 let drawCol;
-let moveBuffer;
+let moveBuffer = game.botPlayer === true ? 1 : 0;
 let winningFour;
 
 document.addEventListener("click", function (event) {
   if (event.button === 0 && isWithin(event.pageX, event.pageY, topLeft.x, topLeft.y, bottomRight.x, bottomRight.y)) {
     if (game.isOver) {
       game.showGameover = !game.showGameover
-    }
+    } 
     if ((game.turn != game.botPlayer) && game.moveIsValid(game.getColumn(event.pageX - topLeft.x)) && !game.isOver) {
       var playerX = game.getColumn(event.pageX - topLeft.x)
       game.move(playerX)
       lastMove = playerX
-      moveBuffer = 1
       if (game.over(playerX)[0]) {
         game.isOver = true
         winningFour = game.over(playerX)[2]
@@ -46,6 +44,8 @@ document.addEventListener("click", function (event) {
           (game.over(playerX)[1] && game.botPlayer) ||
             (game.over(playerX)[1] === false && !game.botPlayer) ? "You Lose! :(" :
             "It's a tie!"
+      } else {
+        moveBuffer = 1
       }
     }
   }
@@ -61,10 +61,6 @@ document.getElementById("redbutton").addEventListener("click", function (){
 document.getElementById("yellowbutton").addEventListener("click", function (){
   localStorage.setItem("start", "yellow")
 })
-
-if (game.botPlayer === true){
-  moveBuffer = 1
-}
 
 function drawCircle(x, y, radius, fill, stroke, strokeWidth) {
   ctx.beginPath()
@@ -151,7 +147,7 @@ function draw() {
           "It's a tie!"
     }
   }
-  if (moveBuffer > 0){
+  if (moveBuffer >= 0){
     moveBuffer --
   }
 }

@@ -7,10 +7,10 @@ const GAMEHEIGHT = 600
 ctx.canvas.width = GAMEWIDTH;
 ctx.canvas.height = GAMEHEIGHT + 100;
 
-const gameBackgroudColor = "rgb(28,98,241)"
-const backgroundColor = "rgb(225, 225, 225)"
+const gameBackgroudColor = "rgba(28, 98, 241, 0.2)"
+const backgroundColor = "rgba(225, 225, 225, 0.2)"
 const gameoverColor = "rgb(66,241,84)"
-const highlightColor = "rgb(0, 230, 255)"
+const highlightColor = "rgba(0, 230, 255)"
 const displayP1Color = "rgb(241, 115, 115)"
 const p1Color = "rgb(246, 26, 26)"
 const p2Color = "rgb(246, 231, 26)"
